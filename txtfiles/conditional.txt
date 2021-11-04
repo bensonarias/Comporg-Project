@@ -1,4 +1,4 @@
 irmovl 4, %ebx
 irmovl 10, %edi
-subl %ecx, %eax
+subl %edi, %ebx
 cmovl %eax, %ebx
