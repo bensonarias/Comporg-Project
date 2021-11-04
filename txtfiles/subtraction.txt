@@ -1,0 +1,3 @@
+irmovl 10, %eax
+irmovl 4, %ecx
+subl %ecx, %eax
