@@ -1,23 +1,32 @@
+var canExecute = false;
+
 function reset() {
     var elements = document.getElementsByTagName("input");
     for (var i = 0; i < elements.length; i++) {
         elements[i].value = elements[i].defaultValue;
     }
     document.getElementById("counter").value = 0;
+    document.getElementById("zf").value = 0;
+    document.getElementById("sf").value = 0;
+    document.getElementById("of").value = 0;
 }
 
 function assignValues() {
     var counterCheck = document.getElementById("counter").value;
 
     var source = "";
-    if (document.getElementById('add').checked) {
+    if (document.getElementById('add').checked && canExecute) {
         source = "/txtfiles/addition.txt";
-    } else if (document.getElementById('sub').checked) {
+    } else if (document.getElementById('sub').checked && canExecute) {
         source = "/txtfiles/subtraction.txt";
-    } else if (document.getElementById('con').checked) {
+    } else if (document.getElementById('con').checked && canExecute) {
         source = "/txtfiles/conditional.txt";
     } else {
-        source = "";
+        source = "/txtfiles/error.txt";
+        var text = document.getElementById('txtholder');
+        var clone = text.cloneNode(true);
+        clone.setAttribute('src', source);
+        text.parentNode.replaceChild(clone, text);
     }
 
     fetch(source)
@@ -36,39 +45,39 @@ function assignValues() {
 
                 if (counterCheck == 0 || counterCheck == 1) {
                     register = tempAr[counterCheck].substr(tempAr[counterCheck].length - 3, 3);
-                    var newVal = tempAr[counterCheck].replace(/\D/g, '');
+                    var newVal = tempAr[counterCheck].replace(/[^\d-]/g, '');
                     if (register == "eax") {
-                        document.getElementById("eax_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "eax_dec");
                         getHex(newVal, "eax_hex");
+                        document.getElementById("counter").value++;
                     } else if (register == "ecx") {
-                        document.getElementById("ecx_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "ecx_dec");
                         getHex(newVal, "ecx_hex");
+                        document.getElementById("counter").value++;
                     } else if (register == "edx") {
-                        document.getElementById("edx_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "edx_dec");
                         getHex(newVal, "edx_hex");
+                        document.getElementById("counter").value++;
                     } else if (register == "ebx") {
-                        document.getElementById("ebx_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "ebx_dec");
                         getHex(newVal, "ebx_hex");
+                        document.getElementById("counter").value++;
                     } else if (register == "esp") {
-                        document.getElementById("esp_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "esp_dec");
                         getHex(newVal, "esp_hex");
+                        document.getElementById("counter").value++;
                     } else if (register == "ebp") {
-                        document.getElementById("ebp_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "ebp_dec");
                         getHex(newVal, "ebp_hex");
+                        document.getElementById("counter").value++;
                     } else if (register == "esi") {
-                        document.getElementById("esi_dec").value = newVal;
-                        document.getElementById("counter").value++;
+                        getDec(newVal, "esi_dec");
                         getHex(newVal, "esi_hex");
-                    } else if (register == "edi") {
-                        document.getElementById("edi_dec").value = newVal;
                         document.getElementById("counter").value++;
+                    } else if (register == "edi") {
+                        getDec(newVal, "edi_dec");
                         getHex(newVal, "edi_hex");
+                        document.getElementById("counter").value++;
                     }
                 } else if (counterCheck == 2) {
                     arithmetic = tempAr[2].substr(0, 4);
@@ -112,13 +121,54 @@ function assignValues() {
                     }
 
                     if (arithmetic == "addl") {
-                        document.getElementById(tempAr[2].substr(12, 15) + "_dec").value = Number(valueTwo) + Number(valueOne);
+                        getDec(Number(valueTwo) + Number(valueOne), tempAr[2].substr(12, 15) + "_dec");
                         getHex(Number(valueTwo) + Number(valueOne), tempAr[counterCheck].substring(12, 15) + "_hex");
+                        setFlag(Number(valueTwo) + Number(valueOne));
                         document.getElementById("counter").value++;
                     } else if (arithmetic == "subl") {
-                        document.getElementById(tempAr[2].substr(12, 15) + "_dec").value = Number(valueTwo) - Number(valueOne);
+                        getDec(Number(valueTwo) - Number(valueOne), tempAr[2].substr(12, 15) + "_dec");
                         getHex(Number(valueTwo) - Number(valueOne), tempAr[counterCheck].substring(12, 15) + "_hex");
+                        setFlag(Number(valueTwo) - Number(valueOne));
                         document.getElementById("counter").value++;
+                    }
+                } else if (counterCheck == 3) {
+                    var sf = document.getElementById("sf").value;
+                    var zf = document.getElementById("zf").value;
+                    var checkCondition = tempAr[3].substring(0, 6);
+
+                    switch (checkCondition) {
+                        case "cmovg ":
+                            if (zf == 0 && sf == 0) {
+                                setMoveCondition(tempAr[3].substring(7, 10), tempAr[3].substring(13, 16));
+                            }
+                            break;
+                        case "cmovge":
+                            if (sf == 0) {
+                                setMoveCondition(tempAr[3].substring(8, 11), tempAr[3].substring(14, 17));
+                            }
+                            break;
+                        case "cmove ":
+                            if (zf == 1) {
+                                setMoveCondition(tempAr[3].substring(7, 10), tempAr[3].substring(13, 16));
+                            }
+                            break;
+                        case "cmovne":
+                            if (zf == 0) {
+                                setMoveCondition(tempAr[3].substring(8, 11), tempAr[3].substring(14, 17));
+                            }
+                            break;
+                        case "cmovle":
+                            if (zf == 1 || sf == 1) {
+                                setMoveCondition(tempAr[3].substring(8, 11), tempAr[3].substring(14, 17));
+                            }
+                            break;
+                        case "cmovl ":
+                            if (sf == 1) {
+                                setMoveCondition(tempAr[3].substring(7, 10), tempAr[3].substring(13, 16));
+                            }
+                            break;
+                        default:
+                            console.log("no conditions");
                     }
                 }
             }
@@ -131,4 +181,47 @@ function getHex(val, name_id) {
     } else {
         document.getElementById(name_id).value = "0x" + Number(val >>> 0).toString(16).toUpperCase().padStart(8, 0);
     }
+}
+
+function getDec(val, name_id) {
+    document.getElementById(name_id).value = val;
+}
+
+function setMoveCondition(firstNameId, secondNameId) {
+    document.getElementById(secondNameId + "_dec").value = document.getElementById(firstNameId + "_dec").value
+    getHex(document.getElementById(secondNameId + "_dec").value, secondNameId + "_hex")
+}
+
+function setFlag(val) {
+    if (val == 0) {
+        document.getElementById("zf").value = 1;
+    } else if (val < 0) {
+        document.getElementById("sf").value = 1;
+    } else if (val > 4294967293) {
+        document.getElementById("of").value = 1;
+    }
+}
+
+
+function showText() {
+    var source = "";
+    var text = document.getElementById('txtholder');
+
+    if (document.getElementById('add').checked) {
+        source = "/txtfiles/addition.txt";
+        canExecute = true;
+    } else if (document.getElementById('sub').checked) {
+        source = "/txtfiles/subtraction.txt";
+        canExecute = true;
+    } else if (document.getElementById('con').checked) {
+        source = "/txtfiles/conditional.txt";
+        canExecute = true;
+    } else {
+        source = "/txtfiles/error.txt";
+        canExecute = false;
+    }
+    var clone = text.cloneNode(true);
+    clone.setAttribute('src', source);
+    text.parentNode.replaceChild(clone, text);
+
 }

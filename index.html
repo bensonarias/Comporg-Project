@@ -2,109 +2,146 @@
 <html>
 
 <head>
-    <title>Project CCOMPORG</title>
+    <title>CCOMPORG</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <div>
+    <div class="div_main">
+        <div class="container__header">
+            <div>
+                <h3 class="header__textone">Project in CCOMPORG</h3>
+            </div>
+            <div>
+                <h3 class="header__texttwo">Y86 Simulator</h4>
+            </div>
+        </div>
         <div class="container__main">
             <div class="container__form">
+                <h3>Choose Operations</h3>
                 <form action=""></form>
-                <input type="radio" name="process" id="add">
-                <label for="add">Addition</label><br>
-                <input type="radio" name="process" id="sub">
-                <label for="sub">Subtraction</label><br>
-                <input type="radio" name="process" id="con">
-                <label for="con">Conditional</label><br>
+                <div class="container__radio">
+                    <input type="radio" name="process" id="add">
+                    <label for="add">Addition</label><br>
+                </div>
+                <div class="container__radio">
+                    <input type="radio" name="process" id="sub">
+                    <label for="sub">Subtraction</label><br>
+                </div>
+                <div class="container__radio">
+                    <input type="radio" name="process" id="con">
+                    <label for="con">Conditional</label><br>
+                </div>
                 <button type="button" onclick="reset()" id="txt_btn">Reset</button>
                 <button type="button" onclick="showText()" id="txt_btn">Load</button>
                 <button type="button" onclick="assignValues()" id="exec_btn">Execute</button>
             </div>
 
             <div class="container__code">
+                <h3>Y86 Instructions</h3>
                 <embed id="txtholder" src="" type="" class="container__text">
             </div>
 
-            <div>
-                <div>
+            <div class="container__result">
+                <div class="container__register">
                     <h3>Registers</h3>
-                    <div>
-                        <label>%eax</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%eax</label>
+                        </div>
                         <input type="text" id="eax_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="eax_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%ecx</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%ecx</label>
+                        </div>
                         <input type="text" id="ecx_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="ecx_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%edx</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%edx</label>
+                        </div>
                         <input type="text" id="edx_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="edx_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%ebx</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%ebx</label>
+                        </div>
                         <input type="text" id="ebx_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="ebx_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%esp</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%esp</label>
+                        </div>
                         <input type="text" id="esp_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="esp_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%ebp</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%ebp</label>
+                        </div>
                         <input type="text" id="ebp_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="ebp_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%esi</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%esi</label>
+                        </div>
                         <input type="text" id="esi_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="esi_dec" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>%edi</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>%edi</label>
+                        </div>
                         <input type="text" id="edi_hex" class="hex" value="0x00000000" readonly>
                         <input type="number" id="edi_dec" class="dec" value="0" readonly>
                     </div>
 
                 </div>
-                <br>
-                <div>
-                    <h3>Flags</h3>
-                    <div>
-                        <label>SF</label>
+            </div>
+            <div class="container__flag">
+                <h3>Flags</h3>
+                <div class="flags">
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>SF</label>
+                        </div>
                         <input type="text" id="sf" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>ZF</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>ZF</label>
+                        </div>
                         <input type="text" id="zf" class="dec" value="0" readonly>
                     </div>
 
-                    <div>
-                        <label>OF</label>
+                    <div class="reg">
+                        <div class="container__label">
+                            <label>OF</label>
+                        </div>
                         <input type="text" id="of" class="dec" value="0" readonly>
                     </div>
                 </div>
-                <input type="hidden" id="counter" class="dec" value="0" readonly>
-
             </div>
+            <input type="hidden" id="counter" class="dec" value="0" readonly>
         </div>
     </div>
 
-    <script src="/js/changeFileTxt.js" type="text/javascript"></script>
-    <script src="/js/valueAssignments.js"></script>
+    <script src="/js/valueAssignments.js" type="text/javascript"></script>
 
 </body>
 

@@ -1,8 +1,85 @@
+* {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 18px;
+}
+
+body {
+    margin: 0;
+}
+
+button {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.container__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.container__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #000;
+    background-color: #7BC950;
+}
+
+.container__label {
+    width: 40px;
+}
+
 .container__text {
     height: 100vh;
+    font-size: 18px;
 }
 
 .container__main {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    background-color: #8CF2A8;
+}
+
+.container__radio {
+    margin-bottom: 10px;
+}
+
+.container__result {
+    display: flex;
+    flex-direction: row;
+}
+
+.div__main {
+    display: flex;
+    flex-direction: column;
+}
+
+.flags {
+    display: flex;
+    flex-direction: column;
+}
+
+.reg {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.header__textone {
+    margin-left: 20px;
+}
+
+.header__texttwo {
+    margin-right: 20px;
+}
+
+.hex {
+    width: 150px;
+    margin: 0 20px;
+}
+
+.dec {
+    width: 130px;
 }
