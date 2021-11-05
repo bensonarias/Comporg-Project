@@ -1,3 +1,3 @@
-irmovl 2147483647, %eax
-irmovl 2147483647, %ecx
+irmovl 1, %eax
+irmovl 5, %ecx
 addl %ecx, %eax

@@ -197,7 +197,7 @@ function setFlag(val) {
         document.getElementById("zf").value = 1;
     } else if (val < 0) {
         document.getElementById("sf").value = 1;
-    } else if (val > 4294967293) {
+    } else if (val > 4294967295) {
         document.getElementById("of").value = 1;
     }
 }
